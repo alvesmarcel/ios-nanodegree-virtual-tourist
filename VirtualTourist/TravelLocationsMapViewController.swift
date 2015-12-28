@@ -33,6 +33,10 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 		fetchedResultsController.delegate = self
 		
 		mapView.addAnnotations(fetchedResultsController.fetchedObjects as! [Pin])
+		
+		if let savedRegion = MapRegion.loadMapRegion() {
+			mapView.setRegion(savedRegion, animated: true)
+		}
 	}
 	
 	@IBAction func editButtonTapped(sender: UIBarButtonItem) {
@@ -113,6 +117,10 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 			sharedContext.insertObject(Pin(coordinate: view.annotation!.coordinate, context: sharedContext))
 			CoreDataStackManager.sharedInstance().saveContext()
 		}
+	}
+	
+	func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+		MapRegion.saveMapRegion(mapView.region.center.latitude, longitude: mapView.region.center.longitude, latitudeDelta: mapView.region.span.latitudeDelta, longitudeDelta: mapView.region.span.longitudeDelta)
 	}
 	
 	var sharedContext: NSManagedObjectContext {
