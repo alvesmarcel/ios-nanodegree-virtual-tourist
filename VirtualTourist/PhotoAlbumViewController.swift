@@ -20,7 +20,6 @@ class PhotoAlbumViewController : UIViewController {
 		
 	}
 	
-	
 	func configureMapView() {
 		
 		mapView.zoomEnabled = false
