@@ -18,6 +18,7 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 	@IBOutlet weak var editViewLabel: UILabel!
 	
 	var editMode: Bool = false
+	var pinDraggedAndDropped: Bool = false
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -56,9 +57,8 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 		if (sender.state == UIGestureRecognizerState.Began && !editMode) {
 			let point = sender.locationInView(self.mapView)
 			let coordinate = self.mapView.convertPoint(point, toCoordinateFromView: self.mapView)
-			let annotation = Pin(coordinate: coordinate, context: sharedContext)
-			annotation.coordinate = coordinate
-			mapView.addAnnotation(annotation)
+			let pin = Pin(coordinate: coordinate, context: sharedContext)
+			sharedContext.insertObject(pin)
 			CoreDataStackManager.sharedInstance().saveContext()
 		}
 	}
@@ -70,16 +70,20 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 		
 		var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
 		
-		
-		pinView?.animatesDrop = false // Avoids animation when the pin is just being dragged and dropped
-		
 		if pinView == nil {
 			pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-			pinView?.animatesDrop = true
 			pinView?.draggable = true
-		}
-		else {
+		} else {
 			pinView!.annotation = annotation
+		}
+		
+		pinView?.setSelected(true, animated: false)
+		pinView?.animatesDrop = true
+		
+		// Sets drop animation to false when the pin is just being dragged and dropped
+		if (pinDraggedAndDropped) {
+			pinView?.animatesDrop = false
+			pinDraggedAndDropped = false
 		}
 		
 		return pinView
@@ -89,7 +93,6 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 		
 		if editMode {
 			// deletes
-			print("Delete")
 			let pin = view.annotation as! Pin
 			sharedContext.deleteObject(pin)
 			CoreDataStackManager.sharedInstance().saveContext()
@@ -100,6 +103,10 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 	}
 	
 	func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, didChangeDragState newState: MKAnnotationViewDragState, fromOldState oldState: MKAnnotationViewDragState) {
+		
+		dispatch_async(dispatch_get_main_queue()) {
+			self.pinDraggedAndDropped = true
+		}
 		
 		if newState == MKAnnotationViewDragState.Ending {
 			let pin = view.annotation as! Pin
