@@ -42,8 +42,8 @@
                             <constraint firstAttribute="trailingMargin" secondItem="LMh-YL-FMr" secondAttribute="trailing" constant="-20" id="GRA-i7-qY7"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="LMh-YL-FMr" secondAttribute="bottom" id="IKa-z3-EKM"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="pxw-Oo-j3B" secondAttribute="bottom" id="L7f-Zi-aYN"/>
+                            <constraint firstItem="pxw-Oo-j3B" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="W0o-Y0-vpI"/>
                             <constraint firstAttribute="trailingMargin" secondItem="pxw-Oo-j3B" secondAttribute="trailing" constant="-20" id="ePM-fS-MQE"/>
-                            <constraint firstItem="pxw-Oo-j3B" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="gq1-MX-pDQ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Virtual Tourist" id="cJC-Vl-n5o">
@@ -57,7 +57,7 @@
                         <outlet property="editBarButton" destination="2g7-ZU-gLm" id="mVJ-os-lqi"/>
                         <outlet property="editViewLabel" destination="LMh-YL-FMr" id="Up5-K3-H7z"/>
                         <outlet property="mapView" destination="pxw-Oo-j3B" id="KCg-rV-I3A"/>
-                        <segue destination="XhO-bE-c8b" kind="show" identifier="segueToPhotoAlbumView" id="c2w-RR-C8w"/>
+                        <segue destination="XhO-bE-c8b" kind="show" identifier="segueToPhotoAlbumView" id="JDQ-7h-4CA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -67,7 +67,7 @@
         <!--Photo Album View Controller-->
         <scene sceneID="DU1-Ec-3g7">
             <objects>
-                <viewController id="XhO-bE-c8b" customClass="PhotoAlbumViewController" customModule="VirtualTourist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PhotoAlbumViewController" id="XhO-bE-c8b" customClass="PhotoAlbumViewController" customModule="VirtualTourist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="R03-Le-bY4"/>
                         <viewControllerLayoutGuide type="bottom" id="vpW-bt-QZt"/>
@@ -79,13 +79,13 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="3CF-HN-pKb">
                                 <rect key="frame" x="0.0" y="64" width="600" height="155"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="155" id="dM4-dQ-Xkn"/>
+                                    <constraint firstAttribute="height" constant="155" id="ivH-Hg-rq3"/>
                                 </constraints>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4kW-LN-YwS">
                                 <rect key="frame" x="0.0" y="550" width="600" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="6am-oq-dMB"/>
+                                    <constraint firstAttribute="height" constant="50" id="rWT-z0-sqI"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                             </button>
@@ -112,16 +112,16 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="i9X-ob-qBd" secondAttribute="trailing" constant="-20" id="EaK-aO-wdx"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="3CF-HN-pKb" secondAttribute="trailing" constant="-20" id="Lmg-0r-0Kf"/>
-                            <constraint firstItem="3CF-HN-pKb" firstAttribute="top" secondItem="R03-Le-bY4" secondAttribute="bottom" id="MpW-WS-ZhV"/>
-                            <constraint firstItem="3CF-HN-pKb" firstAttribute="leading" secondItem="u1L-Wb-qmF" secondAttribute="leadingMargin" constant="-20" id="RT7-ZV-1iY"/>
-                            <constraint firstItem="i9X-ob-qBd" firstAttribute="top" secondItem="3CF-HN-pKb" secondAttribute="bottom" id="UOw-9M-8WM"/>
-                            <constraint firstItem="4kW-LN-YwS" firstAttribute="top" secondItem="i9X-ob-qBd" secondAttribute="bottom" id="XE0-kN-Wtg"/>
-                            <constraint firstItem="vpW-bt-QZt" firstAttribute="top" secondItem="4kW-LN-YwS" secondAttribute="bottom" id="mTx-HQ-5fF"/>
-                            <constraint firstItem="i9X-ob-qBd" firstAttribute="leading" secondItem="u1L-Wb-qmF" secondAttribute="leadingMargin" constant="-20" id="mf4-lD-ePd"/>
-                            <constraint firstItem="4kW-LN-YwS" firstAttribute="leading" secondItem="u1L-Wb-qmF" secondAttribute="leadingMargin" constant="-20" id="vP4-2Z-lGL"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="4kW-LN-YwS" secondAttribute="trailing" constant="-20" id="vcd-xn-PUW"/>
+                            <constraint firstItem="4kW-LN-YwS" firstAttribute="leading" secondItem="u1L-Wb-qmF" secondAttribute="leadingMargin" constant="-20" id="0ae-Va-gBl"/>
+                            <constraint firstItem="3CF-HN-pKb" firstAttribute="leading" secondItem="u1L-Wb-qmF" secondAttribute="leadingMargin" constant="-20" id="46w-s0-AtH"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4kW-LN-YwS" secondAttribute="trailing" constant="-20" id="5jT-zW-aqy"/>
+                            <constraint firstItem="4kW-LN-YwS" firstAttribute="top" secondItem="i9X-ob-qBd" secondAttribute="bottom" id="Snc-gu-yj8"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="3CF-HN-pKb" secondAttribute="trailing" constant="-20" id="WcH-e5-4AP"/>
+                            <constraint firstItem="i9X-ob-qBd" firstAttribute="top" secondItem="3CF-HN-pKb" secondAttribute="bottom" id="hBz-7V-RYN"/>
+                            <constraint firstItem="i9X-ob-qBd" firstAttribute="leading" secondItem="u1L-Wb-qmF" secondAttribute="leadingMargin" constant="-20" id="ikK-oZ-C5r"/>
+                            <constraint firstItem="3CF-HN-pKb" firstAttribute="top" secondItem="R03-Le-bY4" secondAttribute="bottom" id="j7Z-Zu-451"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="i9X-ob-qBd" secondAttribute="trailing" constant="-20" id="rOW-9p-YW9"/>
+                            <constraint firstItem="vpW-bt-QZt" firstAttribute="top" secondItem="4kW-LN-YwS" secondAttribute="bottom" id="sf3-X9-52e"/>
                         </constraints>
                     </view>
                     <connections>

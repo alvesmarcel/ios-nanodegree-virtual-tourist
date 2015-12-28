@@ -49,7 +49,7 @@ struct MapRegion {
 			let latitudeDelta = regionDictionary[LatitudeDeltaDictKey] as! CLLocationDegrees
 			let longitudeDelta = regionDictionary[LongitudeDeltaDictKey] as! CLLocationDegrees
 			let span = MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
-			
+		
 			return MKCoordinateRegion(center: center, span: span)
 		}
 		

@@ -13,10 +13,25 @@ class PhotoAlbumViewController : UIViewController {
 	
 	@IBOutlet weak var mapView: MKMapView!
 	
+	var mapCenter: CLLocationCoordinate2D!
+	
 	override func viewDidLoad() {
+		configureMapView()
+		
+	}
+	
+	
+	func configureMapView() {
 		
 		mapView.zoomEnabled = false
 		mapView.scrollEnabled = false
+		
+		let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+		let region = MKCoordinateRegion(center: mapCenter, span: span)
+		mapView.setRegion(region, animated: false)
+		
+		let annotation = MKPointAnnotation()
+		annotation.coordinate = mapCenter
+		mapView.addAnnotation(annotation)
 	}
-	
 }

@@ -6,6 +6,9 @@
 //  Copyright © 2015 Marcel Oliveira Alves. All rights reserved.
 //
 // http://bjmiller.me/post/58431532849/nsfetchedresultscontroller-with-mkmapview
+//
+// little bug with map region - the region changes slightly when reloaded
+// verify the behavior of tapping a pin
 
 import UIKit
 import MapKit
@@ -103,7 +106,13 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 			sharedContext.deleteObject(pin)
 			CoreDataStackManager.sharedInstance().saveContext()
 		} else {
-			performSegueWithIdentifier("segueToPhotoAlbumView", sender: self)
+			let controller = storyboard!.instantiateViewControllerWithIdentifier("PhotoAlbumViewController") as! PhotoAlbumViewController
+			
+			let latitude = view.annotation!.coordinate.latitude
+			let longitude = view.annotation!.coordinate.longitude
+			controller.mapCenter = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+			
+			self.navigationController!.pushViewController(controller, animated: true)
 		}
 	}
 	
