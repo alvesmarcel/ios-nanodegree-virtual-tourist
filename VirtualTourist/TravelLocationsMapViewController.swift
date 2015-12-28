@@ -97,8 +97,7 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 			sharedContext.deleteObject(pin)
 			CoreDataStackManager.sharedInstance().saveContext()
 		} else {
-			print("Transition")
-			// view transition
+			performSegueWithIdentifier("segueToPhotoAlbumView", sender: self)
 		}
 	}
 	
@@ -145,11 +144,9 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 			
 		switch type {
 			case .Insert:
-				print("Insert")
 				mapView.addAnnotation(anObject as! Pin)
 				
 			case .Delete:
-				print("Delete")
 				mapView.removeAnnotation(anObject as! Pin)
 				
 			default:
