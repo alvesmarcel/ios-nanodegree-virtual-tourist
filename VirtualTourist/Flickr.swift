@@ -72,6 +72,26 @@ class Flickr : NSObject {
 		}
 	}
 	
+	func fetchImageFromFlickr(imageURLString: String, completionHandler: (imageData: NSData?, error: NSError?) ->  Void) -> NSURLSessionTask {
+		let url = NSURL(string: imageURLString)!
+		
+		let request = NSURLRequest(URL: url)
+		
+		let task = session.dataTaskWithRequest(request) {data, response, downloadError in
+			
+			if let error = downloadError {
+				let newError = Flickr.errorForData(data, response: response, error: error)
+				completionHandler(imageData: nil, error: newError)
+			} else {
+				completionHandler(imageData: data, error: nil)
+			}
+		}
+		
+		task.resume()
+		
+		return task
+	}
+	
 	// MARK: - Shared Instance
 	
 	class func sharedInstance() -> Flickr {

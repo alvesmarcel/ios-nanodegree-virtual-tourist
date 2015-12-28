@@ -26,6 +26,17 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+//		Flickr.sharedInstance().fetchPhotosFromFlickr(-10.949262, longitude: -37.070812, perPage: 21, page: 1) { results, error in
+//			
+//			let urlString = results[0]["url_m"] as! String
+//			
+//			Flickr.sharedInstance().fetchImageFromFlickr(urlString) { data, error in
+//				dispatch_async(dispatch_get_main_queue()) {
+//					self.testview.image = UIImage(data: data!)
+//				}
+//			}
+//		}
+		
 		navigationItem.backBarButtonItem = UIBarButtonItem(title:"OK", style:.Plain, target:nil, action:nil)
 		
 		let lpgr = UILongPressGestureRecognizer(target: self, action: "addPinToMap:")
