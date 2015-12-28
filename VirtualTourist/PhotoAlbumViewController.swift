@@ -20,6 +20,10 @@ class PhotoAlbumViewController : UIViewController {
 		
 	}
 	
+	func travelLocationsMap(travelLocationsMap: TravelLocationsMapViewController, didDropPin pin: Pin?) {
+		
+	}
+	
 	func configureMapView() {
 		
 		mapView.zoomEnabled = false

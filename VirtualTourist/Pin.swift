@@ -11,8 +11,9 @@ import MapKit
 
 class Pin : NSManagedObject, MKAnnotation {
 	
-	@NSManaged var latitude : Double
-	@NSManaged var longitude : Double
+	@NSManaged var latitude: Double
+	@NSManaged var longitude: Double
+	@NSManaged var photos: [Photo]
 	
 	lazy var coordinate : CLLocationCoordinate2D  = {
 		return CLLocationCoordinate2DMake(self.latitude, self.longitude)

@@ -42,5 +42,7 @@ extension Flickr {
 	
 	struct JSONResponseKeys {
 		static let ErrorMessage = "message"
+		static let Photos = "photos"
+		static let Photo = "photo"
 	}
 }

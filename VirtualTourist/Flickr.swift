@@ -45,6 +45,33 @@ class Flickr : NSObject {
 		return task
 	}
 	
+	func fetchPhotosFromFlickr(latitude: Double, longitude: Double, perPage: Int, page: Int, completionHandler: CompletionHander) {
+		let methodArguments = [
+			Flickr.JSONBodyKeys.Method: Flickr.Methods.PhotosSearch,
+			Flickr.JSONBodyKeys.ApiKey: Flickr.Constants.ApiKey,
+			Flickr.JSONBodyKeys.SafeSearch: Flickr.SearchParameters.SafeSearch,
+			Flickr.JSONBodyKeys.Extras: Flickr.SearchParameters.Extras,
+			Flickr.JSONBodyKeys.DataFormat: Flickr.SearchParameters.DataFormat,
+			Flickr.JSONBodyKeys.NoJSONCallback: Flickr.SearchParameters.NoJSONCallback,
+			Flickr.JSONBodyKeys.Latitude: "\(latitude)",
+			Flickr.JSONBodyKeys.Longitude: "\(longitude)",
+			Flickr.JSONBodyKeys.PerPage: "\(perPage)",
+			Flickr.JSONBodyKeys.Page: "\(page)"
+		]
+		
+		Flickr.sharedInstance().searchFlickrPhotosWithParameters(methodArguments) { JSONResult, error in
+			if let error = error {
+				completionHandler(result: nil, error: error)
+			} else {
+				if let results = JSONResult.valueForKey(JSONResponseKeys.Photos)?.valueForKey(JSONResponseKeys.Photo) as? [[String : AnyObject]] {
+					completionHandler(result: results, error: nil)
+				} else {
+					completionHandler(result: nil, error: NSError(domain: "fetchPhotosFromFlickr", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not find JSONResponseKey"]))
+				}
+			}
+		}
+	}
+	
 	// MARK: - Shared Instance
 	
 	class func sharedInstance() -> Flickr {
@@ -120,5 +147,8 @@ class Flickr : NSObject {
 			completionHandler(result: parsedResult, error: nil)
 		}
 	}
-
+	
+	struct Caches {
+		static let imageCache = ImageCache()
+	}
 }

@@ -26,24 +26,6 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		
-		let methodArguments = [
-			Flickr.JSONBodyKeys.Method: Flickr.Methods.PhotosSearch,
-			Flickr.JSONBodyKeys.ApiKey: Flickr.Constants.ApiKey,
-			Flickr.JSONBodyKeys.SafeSearch: Flickr.SearchParameters.SafeSearch,
-			Flickr.JSONBodyKeys.Extras: Flickr.SearchParameters.Extras,
-			Flickr.JSONBodyKeys.DataFormat: Flickr.SearchParameters.DataFormat,
-			Flickr.JSONBodyKeys.NoJSONCallback: "1",
-			Flickr.JSONBodyKeys.Latitude: "-10.949262",
-			Flickr.JSONBodyKeys.Longitude: "-37.070812",
-			Flickr.JSONBodyKeys.PerPage: "9",
-			Flickr.JSONBodyKeys.Page: "1000"
-		]
-		
-		Flickr.sharedInstance().searchFlickrPhotosWithParameters(methodArguments) { results, error in
-			print(results["photos"]!!["photo"]!!.count)
-		}
-		
 		navigationItem.backBarButtonItem = UIBarButtonItem(title:"OK", style:.Plain, target:nil, action:nil)
 		
 		let lpgr = UILongPressGestureRecognizer(target: self, action: "addPinToMap:")
@@ -171,20 +153,24 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 		
 	}()
 	
+	
+	
 	// MARK: delegate
 	
 	func controller(controller: NSFetchedResultsController,
 					didChangeObject anObject: AnyObject,
 					atIndexPath indexPath: NSIndexPath?,
 					forChangeType type: NSFetchedResultsChangeType,
-					newIndexPath: NSIndexPath?) {
+					newIndexPath: NSIndexPath?)
+	{
+		let pin = anObject as! Pin
 			
 		switch type {
 			case .Insert:
-				mapView.addAnnotation(anObject as! Pin)
+				mapView.addAnnotation(pin)
 				
 			case .Delete:
-				mapView.removeAnnotation(anObject as! Pin)
+				mapView.removeAnnotation(pin)
 				
 			default:
 				return
