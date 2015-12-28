@@ -17,6 +17,8 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 	@IBOutlet weak var editBarButton: UIBarButtonItem!
 	@IBOutlet weak var editViewLabel: UILabel!
 	
+	var editMode: Bool = false
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -35,11 +37,13 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 	@IBAction func editButtonTapped(sender: UIBarButtonItem) {
 		
 		if editBarButton.title == "Edit" {
+			editMode = true
 			editBarButton.title = "Done"
 			UIView.animateWithDuration(0.5) { animations in
 				self.mapView.frame.origin.y -=  60.0
 			}
 		} else {
+			editMode = false
 			editBarButton.title = "Edit"
 			UIView.animateWithDuration(0.5) { animations in
 				self.mapView.frame.origin.y =  0
@@ -49,12 +53,12 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 	
 	func addPinToMap(sender: UILongPressGestureRecognizer) {
 		
-		if (sender.state == UIGestureRecognizerState.Began) {
+		if (sender.state == UIGestureRecognizerState.Began && !editMode) {
 			let point = sender.locationInView(self.mapView)
 			let coordinate = self.mapView.convertPoint(point, toCoordinateFromView: self.mapView)
 			let annotation = Pin(coordinate: coordinate, context: sharedContext)
 			annotation.coordinate = coordinate
-			self.mapView.addAnnotation(annotation)
+			mapView.addAnnotation(annotation)
 			CoreDataStackManager.sharedInstance().saveContext()
 		}
 	}
@@ -66,15 +70,43 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 		
 		var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
 		
+		
+		pinView?.animatesDrop = false // Avoids animation when the pin is just being dragged and dropped
+		
 		if pinView == nil {
 			pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
 			pinView?.animatesDrop = true
+			pinView?.draggable = true
 		}
 		else {
 			pinView!.annotation = annotation
 		}
 		
 		return pinView
+	}
+	
+	func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+		
+		if editMode {
+			// deletes
+			print("Delete")
+			let pin = view.annotation as! Pin
+			sharedContext.deleteObject(pin)
+			CoreDataStackManager.sharedInstance().saveContext()
+		} else {
+			print("Transition")
+			// view transition
+		}
+	}
+	
+	func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, didChangeDragState newState: MKAnnotationViewDragState, fromOldState oldState: MKAnnotationViewDragState) {
+		
+		if newState == MKAnnotationViewDragState.Ending {
+			let pin = view.annotation as! Pin
+			sharedContext.deleteObject(pin)
+			sharedContext.insertObject(Pin(coordinate: view.annotation!.coordinate, context: sharedContext))
+			CoreDataStackManager.sharedInstance().saveContext()
+		}
 	}
 	
 	var sharedContext: NSManagedObjectContext {
@@ -106,9 +138,11 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 			
 		switch type {
 			case .Insert:
+				print("Insert")
 				mapView.addAnnotation(anObject as! Pin)
 				
 			case .Delete:
+				print("Delete")
 				mapView.removeAnnotation(anObject as! Pin)
 				
 			default:
