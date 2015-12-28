@@ -23,6 +23,8 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		navigationItem.backBarButtonItem = UIBarButtonItem(title:"OK", style:.Plain, target:nil, action:nil)
+		
 		let lpgr = UILongPressGestureRecognizer(target: self, action: "addPinToMap:")
 		self.mapView.addGestureRecognizer(lpgr)
 		

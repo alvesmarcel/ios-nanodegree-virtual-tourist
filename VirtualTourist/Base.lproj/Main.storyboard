@@ -124,6 +124,9 @@
                             <constraint firstAttribute="trailingMargin" secondItem="4kW-LN-YwS" secondAttribute="trailing" constant="-20" id="vcd-xn-PUW"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="mapView" destination="3CF-HN-pKb" id="pTp-5G-tBN"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bKd-aZ-Mvd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

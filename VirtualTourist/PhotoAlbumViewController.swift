@@ -7,7 +7,16 @@
 //
 
 import UIKit
+import MapKit
 
 class PhotoAlbumViewController : UIViewController {
+	
+	@IBOutlet weak var mapView: MKMapView!
+	
+	override func viewDidLoad() {
+		
+		mapView.zoomEnabled = false
+		mapView.scrollEnabled = false
+	}
 	
 }
