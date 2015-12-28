@@ -17,9 +17,9 @@
 		28FCD3331C3082BD0012A6AC /* TravelLocationsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCD3321C3082BD0012A6AC /* TravelLocationsMapViewController.swift */; };
 		28FCD3351C30854D0012A6AC /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FCD3341C30854D0012A6AC /* MapKit.framework */; };
 		28FCD3381C3090230012A6AC /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCD3371C3090230012A6AC /* Pin.swift */; };
-		28FCD33A1C30935A0012A6AC /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCD3391C30935A0012A6AC /* CoreDataStackManager.swift */; };
 		28FCD33C1C30A7AC0012A6AC /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCD33B1C30A7AC0012A6AC /* Photo.swift */; };
 		28FCD33E1C30D5EA0012A6AC /* PhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCD33D1C30D5EA0012A6AC /* PhotoAlbumViewController.swift */; };
+		28FCD3401C31A9010012A6AC /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCD33F1C31A9010012A6AC /* CoreDataStackManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,9 +56,9 @@
 		28FCD3321C3082BD0012A6AC /* TravelLocationsMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelLocationsMapViewController.swift; sourceTree = "<group>"; };
 		28FCD3341C30854D0012A6AC /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		28FCD3371C3090230012A6AC /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
-		28FCD3391C30935A0012A6AC /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataStackManager.swift; path = "../../ios-persistence-2.0/CoreDataFavoriteActors/FavoriteActors/CoreDataStackManager.swift"; sourceTree = "<group>"; };
 		28FCD33B1C30A7AC0012A6AC /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		28FCD33D1C30D5EA0012A6AC /* PhotoAlbumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewController.swift; sourceTree = "<group>"; };
+		28FCD33F1C31A9010012A6AC /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,7 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				28FCD2FE1C307F990012A6AC /* VirtualTourist.xcdatamodeld */,
-				28FCD3391C30935A0012A6AC /* CoreDataStackManager.swift */,
+				28FCD33F1C31A9010012A6AC /* CoreDataStackManager.swift */,
 				28FCD3371C3090230012A6AC /* Pin.swift */,
 				28FCD33B1C30A7AC0012A6AC /* Photo.swift */,
 			);
@@ -326,9 +326,9 @@
 				28FCD33C1C30A7AC0012A6AC /* Photo.swift in Sources */,
 				28FCD33E1C30D5EA0012A6AC /* PhotoAlbumViewController.swift in Sources */,
 				28FCD2F81C307F990012A6AC /* AppDelegate.swift in Sources */,
+				28FCD3401C31A9010012A6AC /* CoreDataStackManager.swift in Sources */,
 				28FCD3001C307F990012A6AC /* VirtualTourist.xcdatamodeld in Sources */,
 				28FCD3331C3082BD0012A6AC /* TravelLocationsMapViewController.swift in Sources */,
-				28FCD33A1C30935A0012A6AC /* CoreDataStackManager.swift in Sources */,
 				28FCD3381C3090230012A6AC /* Pin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
