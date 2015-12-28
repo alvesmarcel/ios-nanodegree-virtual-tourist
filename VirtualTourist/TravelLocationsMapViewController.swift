@@ -14,6 +14,8 @@ import CoreData
 class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NSFetchedResultsControllerDelegate {
 	
 	@IBOutlet weak var mapView: MKMapView!
+	@IBOutlet weak var editBarButton: UIBarButtonItem!
+	@IBOutlet weak var editViewLabel: UILabel!
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -28,6 +30,21 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 		fetchedResultsController.delegate = self
 		
 		mapView.addAnnotations(fetchedResultsController.fetchedObjects as! [Pin])
+	}
+	
+	@IBAction func editButtonTapped(sender: UIBarButtonItem) {
+		
+		if editBarButton.title == "Edit" {
+			editBarButton.title = "Done"
+			UIView.animateWithDuration(0.5) { animations in
+				self.mapView.frame.origin.y -=  60.0
+			}
+		} else {
+			editBarButton.title = "Edit"
+			UIView.animateWithDuration(0.5) { animations in
+				self.mapView.frame.origin.y =  0
+			}
+		}
 	}
 	
 	func addPinToMap(sender: UILongPressGestureRecognizer) {

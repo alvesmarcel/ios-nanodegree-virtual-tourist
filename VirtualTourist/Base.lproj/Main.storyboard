@@ -18,8 +18,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Pins to Delete" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LMh-YL-FMr">
+                                <rect key="frame" x="0.0" y="540" width="600" height="60"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="7Wf-8g-0EQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="pxw-Oo-j3B">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="lvQ-eG-ONv"/>
                                 </connections>
@@ -27,16 +37,25 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="pxw-Oo-j3B" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="3ZW-qG-KTK"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="pxw-Oo-j3B" secondAttribute="trailing" constant="-20" id="QLo-SF-yBo"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="pxw-Oo-j3B" secondAttribute="bottom" id="bPq-jG-aNP"/>
-                            <constraint firstItem="pxw-Oo-j3B" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="ybh-HQ-Sd4"/>
+                            <constraint firstItem="pxw-Oo-j3B" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="4wz-CD-zWf"/>
+                            <constraint firstItem="LMh-YL-FMr" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="B0B-F5-lfn"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="LMh-YL-FMr" secondAttribute="trailing" constant="-20" id="GRA-i7-qY7"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="LMh-YL-FMr" secondAttribute="bottom" id="IKa-z3-EKM"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="pxw-Oo-j3B" secondAttribute="bottom" id="L7f-Zi-aYN"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="pxw-Oo-j3B" secondAttribute="trailing" constant="-20" id="ePM-fS-MQE"/>
+                            <constraint firstItem="pxw-Oo-j3B" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="gq1-MX-pDQ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Virtual Tourist" id="cJC-Vl-n5o">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="2g7-ZU-gLm"/>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="2g7-ZU-gLm">
+                            <connections>
+                                <action selector="editButtonTapped:" destination="BYZ-38-t0r" id="lKL-tK-1of"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="editBarButton" destination="2g7-ZU-gLm" id="mVJ-os-lqi"/>
+                        <outlet property="editViewLabel" destination="LMh-YL-FMr" id="Up5-K3-H7z"/>
                         <outlet property="mapView" destination="pxw-Oo-j3B" id="KCg-rV-I3A"/>
                     </connections>
                 </viewController>
