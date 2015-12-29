@@ -5,6 +5,7 @@
 //  Created by Marcel Oliveira Alves on 12/28/15.
 //  Copyright © 2015 Marcel Oliveira Alves. All rights reserved.
 //
+//  Class responsible for fetching Flickr data (photos' dictionaries and images)
 
 import Foundation
 
@@ -19,7 +20,10 @@ class Flickr : NSObject {
 		super.init()
 	}
 	
-	func searchFlickrPhotosWithParameters(parameters: [String : AnyObject], completionHandler: CompletionHander) -> NSURLSessionDataTask {
+	// MARK: - Flickr API functions
+	
+	// Searches for Flickr photos with parameters passed through a dictionary using Flickr API
+	private func searchFlickrPhotosWithParameters(parameters: [String : AnyObject], completionHandler: CompletionHander) -> NSURLSessionDataTask {
 		
 		var mutableParameters = parameters
 		
@@ -45,6 +49,8 @@ class Flickr : NSObject {
 		return task
 	}
 	
+	// Creates the dictionary with latitude and longitude information to fetch Flickr photos based on location
+	// This method is the one called by the ViewControllers
 	func fetchPhotosFromFlickr(latitude: Double, longitude: Double, perPage: Int, page: Int, completionHandler: CompletionHander) {
 		let methodArguments = [
 			Flickr.JSONBodyKeys.Method: Flickr.Methods.PhotosSearch,
@@ -72,6 +78,8 @@ class Flickr : NSObject {
 		}
 	}
 	
+	// Fetches images from Flickr, after the photos were already fetched
+	// The imageURLString is in the photo dictionary information with the key "url_m"
 	func fetchImageFromFlickr(imageURLString: String, completionHandler: (imageData: NSData?, error: NSError?) ->  Void) -> NSURLSessionTask {
 		let url = NSURL(string: imageURLString)!
 		
@@ -103,8 +111,9 @@ class Flickr : NSObject {
 		return Singleton.sharedInstance
 	}
 	
-	// HELPER
+	// MARK: - Helper
 	
+	// Returns a string that will compose the URL for fetching Flickr data
 	class func escapedParameters(parameters: [String : AnyObject]) -> String {
 		
 		var urlVars = [String]()
@@ -129,6 +138,7 @@ class Flickr : NSObject {
 		return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
 	}
 	
+	// Deal with error from Flickr data
 	class func errorForData(data: NSData?, response: NSURLResponse?, error: NSError) -> NSError {
 		
 		if data == nil {
@@ -148,8 +158,7 @@ class Flickr : NSObject {
 		return error
 	}
 	
-	// Parsing the JSON
-	
+	// JSON Parser
 	class func parseJSONWithCompletionHandler(data: NSData, completionHandler: CompletionHander) {
 		var parsingError: NSError? = nil
 		
@@ -168,6 +177,7 @@ class Flickr : NSObject {
 		}
 	}
 	
+	// Caches the image (saves image using NSFileManager)
 	struct Caches {
 		static let imageCache = ImageCache()
 	}

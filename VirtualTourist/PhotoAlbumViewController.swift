@@ -5,6 +5,9 @@
 //  Created by Marcel Oliveira Alves on 12/27/15.
 //  Copyright © 2015 Marcel Oliveira Alves. All rights reserved.
 //
+//  This class controls the PhotoAlbumView
+//  The only action here is bottomButtonTouched; this action can fetch new photos from Flickr or delete some photos using CoreData
+//  All photos are presented in a UICollectionView and are persisted using CoreData
 
 import UIKit
 import MapKit
@@ -62,7 +65,7 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 	
 	// MARK: - Actions
 	
-	@IBAction func newCollectionDeleteButtonTouch(sender: UIButton) {
+	@IBAction func bottomButtonTouched(sender: UIButton) {
 		if sender.titleLabel?.text == "New Collection" {
 			getNewPhotosFromFlickr()
 		} else {

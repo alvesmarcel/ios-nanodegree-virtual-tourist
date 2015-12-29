@@ -5,6 +5,8 @@
 //  Created by Jason on 3/10/15.
 //  Copyright (c) 2015 Udacity. All rights reserved.
 //
+//  Copied entirely from FavoriteActors
+//  Helper class to save Photos and Pins using CoreData
 
 import Foundation
 import CoreData

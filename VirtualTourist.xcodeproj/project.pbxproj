@@ -153,8 +153,10 @@
 			children = (
 				28FCD3431C31CCE10012A6AC /* Clients */,
 				28FCD2FE1C307F990012A6AC /* VirtualTourist.xcdatamodeld */,
+				28FCD3491C31F32E0012A6AC /* ImageCache.swift */,
 				28FCD33F1C31A9010012A6AC /* CoreDataStackManager.swift */,
 				28FCD3371C3090230012A6AC /* Pin.swift */,
+				28FCD33B1C30A7AC0012A6AC /* Photo.swift */,
 				28FCD3411C31A99C0012A6AC /* MapRegion.swift */,
 			);
 			name = Model;
@@ -217,8 +219,6 @@
 			children = (
 				28FCD3451C31CDD30012A6AC /* FlickrConstants.swift */,
 				28FCD3471C31CDF70012A6AC /* Flickr.swift */,
-				28FCD33B1C30A7AC0012A6AC /* Photo.swift */,
-				28FCD3491C31F32E0012A6AC /* ImageCache.swift */,
 			);
 			name = Flickr;
 			sourceTree = "<group>";

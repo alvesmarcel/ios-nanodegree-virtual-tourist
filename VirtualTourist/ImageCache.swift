@@ -5,6 +5,8 @@
 //  Created by Jason on 1/31/15.
 //  Copyright (c) 2015 Udacity. All rights reserved.
 //
+//  Copied entirely from FavoriteActors
+//  Helper class to save photos images using NSFileManager
 
 import UIKit
 

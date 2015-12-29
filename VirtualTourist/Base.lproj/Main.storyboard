@@ -89,7 +89,7 @@
                                 </constraints>
                                 <state key="normal" title="New Collection"/>
                                 <connections>
-                                    <action selector="newCollectionDeleteButtonTouch:" destination="XhO-bE-c8b" eventType="touchUpInside" id="5IG-Zr-f8k"/>
+                                    <action selector="bottomButtonTouched:" destination="XhO-bE-c8b" eventType="touchUpInside" id="Hg3-cP-D1R"/>
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="white" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="i9X-ob-qBd">

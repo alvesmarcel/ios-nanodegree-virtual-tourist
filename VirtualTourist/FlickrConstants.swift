@@ -5,6 +5,7 @@
 //  Created by Marcel Oliveira Alves on 12/28/15.
 //  Copyright © 2015 Marcel Oliveira Alves. All rights reserved.
 //
+//  Flickr API utility
 
 extension Flickr {
 

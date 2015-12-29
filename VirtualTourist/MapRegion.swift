@@ -5,6 +5,7 @@
 //  Created by Marcel Oliveira Alves on 12/28/15.
 //  Copyright © 2015 Marcel Oliveira Alves. All rights reserved.
 //
+//  A helper class that saves and loads the map region
 
 import MapKit
 
