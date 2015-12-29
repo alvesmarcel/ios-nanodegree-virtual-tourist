@@ -89,7 +89,7 @@
                                 </constraints>
                                 <state key="normal" title="Button"/>
                             </button>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="i9X-ob-qBd">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="white" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="i9X-ob-qBd">
                                 <rect key="frame" x="0.0" y="219" width="600" height="331"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="LlX-ew-8HP">
                                     <size key="itemSize" width="50" height="50"/>
@@ -108,6 +108,10 @@
                                         </view>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="XhO-bE-c8b" id="S4E-Zq-kGb"/>
+                                    <outlet property="delegate" destination="XhO-bE-c8b" id="ia2-Jw-6eK"/>
+                                </connections>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -125,6 +129,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="collectionView" destination="i9X-ob-qBd" id="IGf-g0-QRR"/>
                         <outlet property="mapView" destination="3CF-HN-pKb" id="pTp-5G-tBN"/>
                     </connections>
                 </viewController>

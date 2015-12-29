@@ -123,6 +123,9 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 			let longitude = view.annotation!.coordinate.longitude
 			controller.mapCenter = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
 			
+			let pin = view.annotation as! Pin
+			print(pin.photos.count)
+			
 			self.navigationController!.pushViewController(controller, animated: true)
 		}
 	}
@@ -164,7 +167,17 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 		
 	}()
 	
-	
+	func preFetchPhotosForPin(pin: Pin) {
+		Flickr.sharedInstance().fetchPhotosFromFlickr(pin.latitude, longitude: pin.longitude, perPage: 21, page: 1) { results, error in
+			
+			if let photos = results as? [[String : AnyObject]] {
+				for photo in photos {
+					let imagePath = photo["url_m"] as! String
+					Photo(imagePath: imagePath, context: self.sharedContext).pin = pin
+				}
+			}
+		}
+	}
 	
 	// MARK: delegate
 	
@@ -178,6 +191,7 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 			
 		switch type {
 			case .Insert:
+				preFetchPhotosForPin(pin)
 				mapView.addAnnotation(pin)
 				
 			case .Delete:

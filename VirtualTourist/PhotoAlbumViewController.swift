@@ -9,18 +9,40 @@
 import UIKit
 import MapKit
 
-class PhotoAlbumViewController : UIViewController {
+class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 	
 	@IBOutlet weak var mapView: MKMapView!
+	@IBOutlet weak var collectionView: UICollectionView!
 	
 	var mapCenter: CLLocationCoordinate2D!
 	
+	var pin: Pin!
+	
 	override func viewDidLoad() {
 		configureMapView()
+		collectionView.backgroundColor = UIColor.whiteColor()
+		
 		
 	}
 	
-	func travelLocationsMap(travelLocationsMap: TravelLocationsMapViewController, didDropPin pin: Pin?) {
+	// MARK: UICollectionViewDataSource methods
+	
+	func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return 12
+	}
+	
+	func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCellWithReuseIdentifier("collectionCell", forIndexPath: indexPath)
+		
+		// FAZER O DOWNLOAD DAS IMAGENS
+		
+		return cell
+	}
+	
+	// MARK: UICollectionViewDelegate methods
+	
+	// Performs different actions depending on the collectionViewIsEditing
+	func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 		
 	}
 	
