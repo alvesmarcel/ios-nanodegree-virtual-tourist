@@ -136,6 +136,12 @@
                                     <outlet property="delegate" destination="XhO-bE-c8b" id="ia2-Jw-6eK"/>
                                 </connections>
                             </collectionView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This pin has no images" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lRZ-rW-Z2R">
+                                <rect key="frame" x="212" y="263" width="175" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -147,6 +153,8 @@
                             <constraint firstItem="i9X-ob-qBd" firstAttribute="top" secondItem="3CF-HN-pKb" secondAttribute="bottom" id="hBz-7V-RYN"/>
                             <constraint firstItem="i9X-ob-qBd" firstAttribute="leading" secondItem="u1L-Wb-qmF" secondAttribute="leadingMargin" constant="-20" id="ikK-oZ-C5r"/>
                             <constraint firstItem="3CF-HN-pKb" firstAttribute="top" secondItem="R03-Le-bY4" secondAttribute="bottom" id="j7Z-Zu-451"/>
+                            <constraint firstItem="lRZ-rW-Z2R" firstAttribute="centerX" secondItem="u1L-Wb-qmF" secondAttribute="centerX" id="kYg-Wa-zMu"/>
+                            <constraint firstItem="lRZ-rW-Z2R" firstAttribute="top" secondItem="3CF-HN-pKb" secondAttribute="bottom" constant="44" id="owW-dT-QNR"/>
                             <constraint firstAttribute="trailingMargin" secondItem="i9X-ob-qBd" secondAttribute="trailing" constant="-20" id="rOW-9p-YW9"/>
                             <constraint firstItem="vpW-bt-QZt" firstAttribute="top" secondItem="4kW-LN-YwS" secondAttribute="bottom" id="sf3-X9-52e"/>
                         </constraints>
@@ -155,6 +163,7 @@
                         <outlet property="collectionView" destination="i9X-ob-qBd" id="IGf-g0-QRR"/>
                         <outlet property="mapView" destination="3CF-HN-pKb" id="pTp-5G-tBN"/>
                         <outlet property="newCollectionButton" destination="4kW-LN-YwS" id="3L5-ww-7f2"/>
+                        <outlet property="noImageLabel" destination="lRZ-rW-Z2R" id="ovE-mH-1IJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bKd-aZ-Mvd" userLabel="First Responder" sceneMemberID="firstResponder"/>

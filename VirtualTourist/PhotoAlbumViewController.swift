@@ -17,6 +17,7 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 	@IBOutlet weak var mapView: MKMapView!
 	@IBOutlet weak var collectionView: UICollectionView!
 	@IBOutlet weak var newCollectionButton: UIButton!
+	@IBOutlet weak var noImageLabel: UILabel!
 	
 	// MARK: - Class variables
 	
@@ -37,6 +38,7 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 	}
 	
 	override func viewWillAppear(animated: Bool) {
+		noImageLabel.hidden = !pin.photos.isEmpty
 		collectionView.reloadData()
 	}
 	
@@ -208,8 +210,9 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 				}
 				CoreDataStackManager.sharedInstance().saveContext()
 				
-				// Updating the collectionView with the new photos
+				// Updating the collectionView with the new photos and noImageLabel
 				dispatch_async(dispatch_get_main_queue()) {
+					self.noImageLabel.hidden = !self.pin.photos.isEmpty
 					self.collectionView.reloadData()
 				}
 			}
