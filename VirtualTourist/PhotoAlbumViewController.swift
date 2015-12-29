@@ -12,13 +12,24 @@ import CoreData
 
 class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 	
+	// MARK: - Outlets
+	
 	@IBOutlet weak var mapView: MKMapView!
 	@IBOutlet weak var collectionView: UICollectionView!
 	@IBOutlet weak var newCollectionButton: UIButton!
 	
-	var pin: Pin!
+	// MARK: - Class variables
 	
+	var pin: Pin!
 	var photosToBeRemoved = [NSIndexPath : Photo]()
+	
+	// MARK: - Shared Context
+	
+	var sharedContext: NSManagedObjectContext {
+		return CoreDataStackManager.sharedInstance().managedObjectContext
+	}
+	
+	// MARK: - Lifecycle
 	
 	override func viewDidLoad() {
 		configureMapView()
@@ -29,6 +40,9 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 		collectionView.reloadData()
 	}
 	
+	// MARK: - Overridden UIViewController method
+	
+	// Organizes the UICollectionView
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 		
@@ -44,57 +58,41 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 		collectionView.collectionViewLayout = layout
 	}
 	
+	// MARK: - Actions
+	
 	@IBAction func newCollectionDeleteButtonTouch(sender: UIButton) {
 		if sender.titleLabel?.text == "New Collection" {
-			
+			getNewPhotosFromFlickr()
 		} else {
-			print(pin.photos.count)
-			updateBottomButton()
-			collectionView.performBatchUpdates({
-				for photo in self.photosToBeRemoved {
-					self.photosToBeRemoved.removeValueForKey(photo.0)
-					self.sharedContext.deleteObject(photo.1)
-					CoreDataStackManager.sharedInstance().saveContext()
-					self.collectionView.deleteItemsAtIndexPaths([photo.0])
-				}
-			}, completion: nil)
+			deleteSelectedPhotos()
 		}
 	}
 	
-	// MARK: UICollectionViewDataSource methods
+	// MARK: - UICollectionViewDataSource methods
 	
 	func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return pin.photos.count
 	}
 	
 	func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-		
 		let cell = collectionView.dequeueReusableCellWithReuseIdentifier("collectionCell", forIndexPath: indexPath) as! PhotoAlbumViewCell
-		
 		let photo = pin.photos[indexPath.row]
-		
 		configureCell(cell, photo: photo)
-		
 		return cell
 	}
 	
-	// MARK: UICollectionViewDelegate methods
+	// MARK: - UICollectionViewDelegate methods
 	
 	// Performs different actions depending on the collectionViewIsEditing
 	func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 		let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoAlbumViewCell
-		
-		if cell.alpha < 1.0 {
-			cell.alpha = 1.0
-			photosToBeRemoved.removeValueForKey(indexPath)
-		} else {
-			cell.alpha = 0.3
-			photosToBeRemoved[indexPath] = pin.photos[indexPath.row]
-		}
-		
+		selectCell(cell, forIndexPath: indexPath)
 		updateBottomButton()
 	}
 	
+	// MARK: - Helper methods
+	
+	// Configures mapView (region and annotation)
 	func configureMapView() {
 		
 		mapView.zoomEnabled = false
@@ -110,19 +108,22 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 		mapView.addAnnotation(annotation)
 	}
 	
-	// MARK: Configure Cell
-	
+	// Configures collectionView cells choosing a proper image
 	func configureCell(cell: PhotoAlbumViewCell, photo: Photo) {
 		
+		// No image: background gray and activityIndicator on
 		cell.backgroundColor = UIColor.grayColor()
 		cell.activityIndicator.startAnimating()
 		
 		var cellImage = UIImage()
 		
+		// The photo has an image in the file system: no need to download from Flickr
 		if photo.image != nil {
 			cellImage = photo.image!
 			cell.activityIndicator.stopAnimating()
-		} else {
+		}
+		// The photo has no image in the file system: download the image from Flickr
+		else {
 			
 			let task = Flickr.sharedInstance().fetchImageFromFlickr(photo.imagePath!) { data, error in
 				
@@ -149,10 +150,72 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 		cell.image.image = cellImage
 	}
 	
-	var sharedContext: NSManagedObjectContext {
-		return CoreDataStackManager.sharedInstance().managedObjectContext
+	// Selects or deselects cell for an indexPath
+	func selectCell(cell: PhotoAlbumViewCell, forIndexPath indexPath: NSIndexPath) {
+		if cell.alpha < 1.0 {
+			cell.alpha = 1.0
+			photosToBeRemoved.removeValueForKey(indexPath)
+		} else {
+			cell.alpha = 0.3
+			photosToBeRemoved[indexPath] = pin.photos[indexPath.row]
+		}
 	}
 	
+	// Deletes selected photos
+	func deleteSelectedPhotos() {
+		collectionView.performBatchUpdates({
+			
+			// Deletes photo from CoreData and cell from collectionView
+			for photo in self.photosToBeRemoved {
+				self.photosToBeRemoved.removeValueForKey(photo.0)
+				self.sharedContext.deleteObject(photo.1)
+				self.collectionView.deleteItemsAtIndexPaths([photo.0])
+				CoreDataStackManager.sharedInstance().saveContext()
+			}
+		}, completion: nil)
+		
+		updateBottomButton()
+	}
+	
+	// Deletes all photos from current pin
+	func deleteAllPhotos() {
+		for photo in pin.photos {
+			sharedContext.deleteObject(photo)
+		}
+	}
+	
+	func getNewPhotosFromFlickr() {
+		
+		// Increment flickrPage so different photos will be fetched
+		pin.flickrPage += 1
+		
+		// Delete all photos before fetching new ones
+		deleteAllPhotos()
+		
+		// Cleans collectionView
+		dispatch_async(dispatch_get_main_queue()) {
+			self.collectionView.reloadData()
+		}
+		
+		// Fetch new photos from Flickr
+		Flickr.sharedInstance().fetchPhotosFromFlickr(pin.latitude, longitude: pin.longitude, perPage: 21, page: pin.flickrPage) { results, error in
+			
+			if let photos = results as? [[String : AnyObject]] {
+				for photo in photos {
+					let imagePath = photo["url_m"] as! String
+					Photo(imagePath: imagePath, context: self.sharedContext).pin = self.pin
+				}
+				CoreDataStackManager.sharedInstance().saveContext()
+				
+				// Updating the collectionView with the new photos
+				dispatch_async(dispatch_get_main_queue()) {
+					self.collectionView.reloadData()
+				}
+			}
+		}
+	}
+	
+	// Changes bottomButton title
 	func updateBottomButton() {
 		if photosToBeRemoved.count == 0 {
 			newCollectionButton.setTitle("New Collection", forState: .Normal)
