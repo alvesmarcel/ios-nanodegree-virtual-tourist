@@ -50,8 +50,8 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 		// with no space in between.
 		let layout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
 		layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-		layout.minimumLineSpacing = 1.0
-		layout.minimumInteritemSpacing = 1.0
+		layout.minimumLineSpacing = 0.0
+		layout.minimumInteritemSpacing = 0.0
 		
 		let width = floor(self.collectionView.frame.size.width/3)
 		layout.itemSize = CGSize(width: width, height: width)
