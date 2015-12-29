@@ -14,27 +14,28 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 	@IBOutlet weak var mapView: MKMapView!
 	@IBOutlet weak var collectionView: UICollectionView!
 	
-	var mapCenter: CLLocationCoordinate2D!
-	
 	var pin: Pin!
 	
 	override func viewDidLoad() {
 		configureMapView()
 		collectionView.backgroundColor = UIColor.whiteColor()
-		
-		
+	}
+	
+	override func viewWillAppear(animated: Bool) {
+		collectionView.reloadData()
 	}
 	
 	// MARK: UICollectionViewDataSource methods
 	
 	func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return 12
+		return pin.photos.count
 	}
 	
 	func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCellWithReuseIdentifier("collectionCell", forIndexPath: indexPath)
+		let cell = collectionView.dequeueReusableCellWithReuseIdentifier("collectionCell", forIndexPath: indexPath) as! PhotoAlbumViewCell
 		
-		// FAZER O DOWNLOAD DAS IMAGENS
+		cell.image.backgroundColor = UIColor.grayColor()
+		cell.activityIndicator.startAnimating()
 		
 		return cell
 	}
@@ -51,6 +52,7 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 		mapView.zoomEnabled = false
 		mapView.scrollEnabled = false
 		
+		let mapCenter = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
 		let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
 		let region = MKCoordinateRegion(center: mapCenter, span: span)
 		mapView.setRegion(region, animated: false)

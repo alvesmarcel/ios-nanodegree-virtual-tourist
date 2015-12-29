@@ -24,6 +24,7 @@
 		28FCD3461C31CDD30012A6AC /* FlickrConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCD3451C31CDD30012A6AC /* FlickrConstants.swift */; };
 		28FCD3481C31CDF70012A6AC /* Flickr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCD3471C31CDF70012A6AC /* Flickr.swift */; };
 		28FCD34A1C31F32E0012A6AC /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCD3491C31F32E0012A6AC /* ImageCache.swift */; };
+		28FCD34C1C322E1F0012A6AC /* PhotoAlbumViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCD34B1C322E1F0012A6AC /* PhotoAlbumViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		28FCD3451C31CDD30012A6AC /* FlickrConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrConstants.swift; sourceTree = "<group>"; };
 		28FCD3471C31CDF70012A6AC /* Flickr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flickr.swift; sourceTree = "<group>"; };
 		28FCD3491C31F32E0012A6AC /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		28FCD34B1C322E1F0012A6AC /* PhotoAlbumViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +163,7 @@
 		28FCD32E1C3081710012A6AC /* View */ = {
 			isa = PBXGroup;
 			children = (
+				28FCD34B1C322E1F0012A6AC /* PhotoAlbumViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28FCD34A1C31F32E0012A6AC /* ImageCache.swift in Sources */,
+				28FCD34C1C322E1F0012A6AC /* PhotoAlbumViewCell.swift in Sources */,
 				28FCD33C1C30A7AC0012A6AC /* Photo.swift in Sources */,
 				28FCD3461C31CDD30012A6AC /* FlickrConstants.swift in Sources */,
 				28FCD3481C31CDF70012A6AC /* Flickr.swift in Sources */,

@@ -92,20 +92,40 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="white" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="i9X-ob-qBd">
                                 <rect key="frame" x="0.0" y="219" width="600" height="331"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="LlX-ew-8HP">
-                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="itemSize" width="112" height="112"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collectionCell" id="NjS-dh-GNc">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collectionCell" id="NjS-dh-GNc" customClass="PhotoAlbumViewCell" customModule="VirtualTourist" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="112" height="112"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="112" height="112"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FOg-Gc-vbk">
+                                                    <rect key="frame" x="0.0" y="0.0" width="112" height="112"/>
+                                                </imageView>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="t35-io-L4w">
+                                                    <rect key="frame" x="38" y="37" width="37" height="37"/>
+                                                </activityIndicatorView>
+                                            </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <constraints>
+                                            <constraint firstAttribute="bottomMargin" secondItem="FOg-Gc-vbk" secondAttribute="bottom" constant="-8" id="BhJ-qu-t6f"/>
+                                            <constraint firstItem="t35-io-L4w" firstAttribute="centerX" secondItem="FOg-Gc-vbk" secondAttribute="centerX" id="CFQ-cl-RbP"/>
+                                            <constraint firstItem="FOg-Gc-vbk" firstAttribute="top" secondItem="NjS-dh-GNc" secondAttribute="topMargin" constant="-8" id="jMs-y5-3bP"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="FOg-Gc-vbk" secondAttribute="trailing" constant="-8" id="kaH-YM-iwe"/>
+                                            <constraint firstItem="t35-io-L4w" firstAttribute="centerY" secondItem="FOg-Gc-vbk" secondAttribute="centerY" id="swK-sL-1hd"/>
+                                            <constraint firstItem="FOg-Gc-vbk" firstAttribute="leading" secondItem="NjS-dh-GNc" secondAttribute="leadingMargin" constant="-8" id="wf7-rM-N46"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="activityIndicator" destination="t35-io-L4w" id="gC0-HT-37X"/>
+                                            <outlet property="image" destination="FOg-Gc-vbk" id="Pe3-Ef-0TJ"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>

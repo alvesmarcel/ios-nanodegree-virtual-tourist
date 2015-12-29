@@ -111,20 +111,17 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 	
 	func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
 		
+		let pin = view.annotation as! Pin
+		
 		if editMode {
 			// deletes
-			let pin = view.annotation as! Pin
+			
 			sharedContext.deleteObject(pin)
 			CoreDataStackManager.sharedInstance().saveContext()
 		} else {
 			let controller = storyboard!.instantiateViewControllerWithIdentifier("PhotoAlbumViewController") as! PhotoAlbumViewController
 			
-			let latitude = view.annotation!.coordinate.latitude
-			let longitude = view.annotation!.coordinate.longitude
-			controller.mapCenter = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-			
-			let pin = view.annotation as! Pin
-			print(pin.photos.count)
+			controller.pin = pin
 			
 			self.navigationController!.pushViewController(controller, animated: true)
 		}
@@ -175,6 +172,7 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 					let imagePath = photo["url_m"] as! String
 					Photo(imagePath: imagePath, context: self.sharedContext).pin = pin
 				}
+				CoreDataStackManager.sharedInstance().saveContext()
 			}
 		}
 	}
