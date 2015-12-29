@@ -53,8 +53,7 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 			collectionView.performBatchUpdates({
 				for photo in self.photosToBeRemoved {
 					self.photosToBeRemoved.removeValueForKey(photo.0)
-					let p = photo.1
-					p.pin = nil
+					self.sharedContext.deleteObject(photo.1)
 					CoreDataStackManager.sharedInstance().saveContext()
 					self.collectionView.deleteItemsAtIndexPaths([photo.0])
 				}
