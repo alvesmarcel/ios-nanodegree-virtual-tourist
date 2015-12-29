@@ -88,6 +88,9 @@
                                     <constraint firstAttribute="height" constant="50" id="rWT-z0-sqI"/>
                                 </constraints>
                                 <state key="normal" title="New Collection"/>
+                                <connections>
+                                    <action selector="newCollectionDeleteButtonTouch:" destination="XhO-bE-c8b" eventType="touchUpInside" id="5IG-Zr-f8k"/>
+                                </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="white" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="i9X-ob-qBd">
                                 <rect key="frame" x="0.0" y="219" width="600" height="331"/>

@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 	
@@ -26,6 +27,39 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 	
 	override func viewWillAppear(animated: Bool) {
 		collectionView.reloadData()
+	}
+	
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+		
+		// Lay out the collection view so that cells take up 1/3 of the width,
+		// with no space in between.
+		let layout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+		layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+		layout.minimumLineSpacing = 1.0
+		layout.minimumInteritemSpacing = 1.0
+		
+		let width = floor(self.collectionView.frame.size.width/3)
+		layout.itemSize = CGSize(width: width, height: width)
+		collectionView.collectionViewLayout = layout
+	}
+	
+	@IBAction func newCollectionDeleteButtonTouch(sender: UIButton) {
+		if sender.titleLabel?.text == "New Collection" {
+			
+		} else {
+			print(pin.photos.count)
+			updateBottomButton()
+			collectionView.performBatchUpdates({
+				for photo in self.photosToBeRemoved {
+					self.photosToBeRemoved.removeValueForKey(photo.0)
+					let p = photo.1
+					p.pin = nil
+					CoreDataStackManager.sharedInstance().saveContext()
+					self.collectionView.deleteItemsAtIndexPaths([photo.0])
+				}
+			}, completion: nil)
+		}
 	}
 	
 	// MARK: UICollectionViewDataSource methods
@@ -59,11 +93,7 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 			photosToBeRemoved[indexPath] = pin.photos[indexPath.row]
 		}
 		
-		if photosToBeRemoved.count == 0 {
-			newCollectionButton.setTitle("New Collection", forState: .Normal)
-		} else {
-			newCollectionButton.setTitle("Remove Selected Pictures", forState: .Normal)
-		}
+		updateBottomButton()
 	}
 	
 	func configureMapView() {
@@ -118,5 +148,17 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 		}
 		
 		cell.image.image = cellImage
+	}
+	
+	var sharedContext: NSManagedObjectContext {
+		return CoreDataStackManager.sharedInstance().managedObjectContext
+	}
+	
+	func updateBottomButton() {
+		if photosToBeRemoved.count == 0 {
+			newCollectionButton.setTitle("New Collection", forState: .Normal)
+		} else {
+			newCollectionButton.setTitle("Remove Selected Pictures", forState: .Normal)
+		}
 	}
 }
