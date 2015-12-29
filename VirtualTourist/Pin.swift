@@ -13,6 +13,7 @@ class Pin : NSManagedObject, MKAnnotation {
 	
 	@NSManaged var latitude: Double
 	@NSManaged var longitude: Double
+	@NSManaged var flickrPage: Int
 	@NSManaged var photos: [Photo]
 	
 	lazy var coordinate : CLLocationCoordinate2D  = {
@@ -29,13 +30,10 @@ class Pin : NSManagedObject, MKAnnotation {
 		
 		self.latitude = latitude
 		self.longitude = longitude
+		self.flickrPage = 1
 	}
 	
-	init(coordinate: CLLocationCoordinate2D, context: NSManagedObjectContext) {
-		let entity =  NSEntityDescription.entityForName("Pin", inManagedObjectContext: context)!
-		super.init(entity: entity,insertIntoManagedObjectContext: context)
-		
-		self.latitude = coordinate.latitude
-		self.longitude = coordinate.longitude
+	convenience init(coordinate: CLLocationCoordinate2D, context: NSManagedObjectContext) {
+		self.init(latitude: coordinate.latitude, longitude: coordinate.longitude, context: context)
 	}
 }
