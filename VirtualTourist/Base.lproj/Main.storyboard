@@ -87,7 +87,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="rWT-z0-sqI"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
+                                <state key="normal" title="New Collection"/>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="white" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="i9X-ob-qBd">
                                 <rect key="frame" x="0.0" y="219" width="600" height="331"/>
@@ -151,6 +151,7 @@
                     <connections>
                         <outlet property="collectionView" destination="i9X-ob-qBd" id="IGf-g0-QRR"/>
                         <outlet property="mapView" destination="3CF-HN-pKb" id="pTp-5G-tBN"/>
+                        <outlet property="newCollectionButton" destination="4kW-LN-YwS" id="3L5-ww-7f2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bKd-aZ-Mvd" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -13,8 +13,11 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 	
 	@IBOutlet weak var mapView: MKMapView!
 	@IBOutlet weak var collectionView: UICollectionView!
+	@IBOutlet weak var newCollectionButton: UIButton!
 	
 	var pin: Pin!
+	
+	var photosToBeRemoved = [NSIndexPath : Photo]()
 	
 	override func viewDidLoad() {
 		configureMapView()
@@ -32,10 +35,12 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 	}
 	
 	func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+		
 		let cell = collectionView.dequeueReusableCellWithReuseIdentifier("collectionCell", forIndexPath: indexPath) as! PhotoAlbumViewCell
 		
-		cell.image.backgroundColor = UIColor.grayColor()
-		cell.activityIndicator.startAnimating()
+		let photo = pin.photos[indexPath.row]
+		
+		configureCell(cell, photo: photo)
 		
 		return cell
 	}
@@ -44,7 +49,21 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 	
 	// Performs different actions depending on the collectionViewIsEditing
 	func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+		let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoAlbumViewCell
 		
+		if cell.alpha < 1.0 {
+			cell.alpha = 1.0
+			photosToBeRemoved.removeValueForKey(indexPath)
+		} else {
+			cell.alpha = 0.3
+			photosToBeRemoved[indexPath] = pin.photos[indexPath.row]
+		}
+		
+		if photosToBeRemoved.count == 0 {
+			newCollectionButton.setTitle("New Collection", forState: .Normal)
+		} else {
+			newCollectionButton.setTitle("Remove Selected Pictures", forState: .Normal)
+		}
 	}
 	
 	func configureMapView() {
@@ -60,5 +79,44 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 		let annotation = MKPointAnnotation()
 		annotation.coordinate = mapCenter
 		mapView.addAnnotation(annotation)
+	}
+	
+	// MARK: Configure Cell
+	
+	func configureCell(cell: PhotoAlbumViewCell, photo: Photo) {
+		
+		cell.backgroundColor = UIColor.grayColor()
+		cell.activityIndicator.startAnimating()
+		
+		var cellImage = UIImage()
+		
+		if photo.image != nil {
+			cellImage = photo.image!
+			cell.activityIndicator.stopAnimating()
+		} else {
+			
+			let task = Flickr.sharedInstance().fetchImageFromFlickr(photo.imagePath!) { data, error in
+				
+				if let error = error {
+					print("Image download error: \(error.localizedDescription)")
+				}
+				
+				if let data = data {
+
+					let image = UIImage(data: data)
+					
+					photo.image = image
+					
+					dispatch_async(dispatch_get_main_queue()) {
+						cell.image.image = image
+						cell.activityIndicator.stopAnimating()
+					}
+				}
+			}
+			
+			cell.taskToCancelifCellIsReused = task
+		}
+		
+		cell.image.image = cellImage
 	}
 }

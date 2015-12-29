@@ -59,6 +59,14 @@ class ImageCache {
         let data = UIImagePNGRepresentation(image!)!
         data.writeToFile(path, atomically: true)
     }
+	
+	// MARK: Deleting images
+	
+	func deleteImage(imagePath: String) {
+		do {
+			try NSFileManager.defaultManager().removeItemAtPath(imagePath)
+		} catch _ {}
+	}
     
     // MARK: - Helper
     

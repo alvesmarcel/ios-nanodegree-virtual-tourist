@@ -11,7 +11,7 @@ import CoreData
 
 class Photo : NSManagedObject {
 	
-	@NSManaged var imagePath: String?
+	@NSManaged var imagePath: String!
 	@NSManaged var pin: Pin?
 	
 	override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
@@ -25,6 +25,10 @@ class Photo : NSManagedObject {
 		self.imagePath = imagePath
 	}
 	
+	override func prepareForDeletion() {
+		Flickr.Caches.imageCache.deleteImage(imagePath)
+	}
+	
 	var image: UIImage? {
 		
 		get {
@@ -32,7 +36,7 @@ class Photo : NSManagedObject {
 		}
 		
 		set {
-			Flickr.Caches.imageCache.storeImage(newValue, withIdentifier: imagePath!)
+			Flickr.Caches.imageCache.storeImage(newValue, withIdentifier: imagePath)
 		}
 	}
 	
