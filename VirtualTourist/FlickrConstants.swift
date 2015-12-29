@@ -11,6 +11,7 @@ extension Flickr {
 	struct Constants {
 		static let ApiKey = "9bd65c1700be1d09780a9fa35e819124"
 		static let BaseURL = "https://api.flickr.com/services/rest/"
+		static let PageSize = 21
 	}
 	
 	struct Methods {

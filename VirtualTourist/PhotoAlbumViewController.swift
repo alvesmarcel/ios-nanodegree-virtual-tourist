@@ -184,6 +184,7 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 		}
 	}
 	
+	// Fetch new photos from Flickr
 	func getNewPhotosFromFlickr() {
 		
 		// Increment flickrPage so different photos will be fetched
@@ -198,7 +199,7 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 		}
 		
 		// Fetch new photos from Flickr
-		Flickr.sharedInstance().fetchPhotosFromFlickr(pin.latitude, longitude: pin.longitude, perPage: 21, page: pin.flickrPage) { results, error in
+		Flickr.sharedInstance().fetchPhotosFromFlickr(pin.latitude, longitude: pin.longitude, perPage: Flickr.Constants.PageSize, page: pin.flickrPage) { results, error in
 			
 			if let photos = results as? [[String : AnyObject]] {
 				for photo in photos {
@@ -217,7 +218,7 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 	
 	// Changes bottomButton title
 	func updateBottomButton() {
-		if photosToBeRemoved.count == 0 {
+		if photosToBeRemoved.isEmpty {
 			newCollectionButton.setTitle("New Collection", forState: .Normal)
 		} else {
 			newCollectionButton.setTitle("Remove Selected Pictures", forState: .Normal)
