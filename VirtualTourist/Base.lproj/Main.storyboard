@@ -160,9 +160,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="bottomButton" destination="4kW-LN-YwS" id="V6w-0U-quO"/>
                         <outlet property="collectionView" destination="i9X-ob-qBd" id="IGf-g0-QRR"/>
                         <outlet property="mapView" destination="3CF-HN-pKb" id="pTp-5G-tBN"/>
-                        <outlet property="newCollectionButton" destination="4kW-LN-YwS" id="3L5-ww-7f2"/>
                         <outlet property="noImageLabel" destination="lRZ-rW-Z2R" id="ovE-mH-1IJ"/>
                     </connections>
                 </viewController>

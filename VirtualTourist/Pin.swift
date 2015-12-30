@@ -33,7 +33,7 @@ class Pin : NSManagedObject, MKAnnotation {
 	init(latitude: Double, longitude: Double, context: NSManagedObjectContext) {
 		let entity =  NSEntityDescription.entityForName("Pin", inManagedObjectContext: context)!
 		super.init(entity: entity,insertIntoManagedObjectContext: context)
-		
+
 		self.latitude = latitude
 		self.longitude = longitude
 		self.flickrPage = 1

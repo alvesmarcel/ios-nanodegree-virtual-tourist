@@ -81,18 +81,22 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 	// MARK: - MKMapViewDelegate methods
 	
 	func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+		
 		let reuseId = "pin"
 		
 		var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
 		
 		if pinView == nil {
 			pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-			pinView?.draggable = true
+			pinView?.draggable = true // configurates every pin to be draggable
 		} else {
 			pinView!.annotation = annotation
 		}
 		
+		// Avoids the need to select the pin before dragging
 		pinView?.setSelected(true, animated: false)
+		
+		// Drop should be animated by default
 		pinView?.animatesDrop = true
 		
 		// Sets drop animation to false when the pin is just being dragged and dropped
@@ -100,7 +104,7 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 			pinView?.animatesDrop = false
 			pinDraggedAndDropped = false
 		}
-		
+
 		return pinView
 	}
 	

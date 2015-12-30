@@ -19,13 +19,14 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 	
 	@IBOutlet weak var mapView: MKMapView!
 	@IBOutlet weak var collectionView: UICollectionView!
-	@IBOutlet weak var newCollectionButton: UIButton!
+	@IBOutlet weak var bottomButton: UIButton!
 	@IBOutlet weak var noImageLabel: UILabel!
 	
 	// MARK: - Class variables
 	
 	var pin: Pin!
 	var photosToBeRemoved = [NSIndexPath : Photo]()
+	var downloadedImages = 0
 	
 	// MARK: - Shared Context
 	
@@ -119,12 +120,14 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 		// No image: background gray and activityIndicator on
 		cell.backgroundColor = UIColor.grayColor()
 		cell.activityIndicator.startAnimating()
+		cell.userInteractionEnabled = false
 		
 		var cellImage = UIImage()
 		
 		// The photo has an image in the file system: no need to download from Flickr
 		if photo.image != nil {
 			cellImage = photo.image!
+			cell.userInteractionEnabled = true
 			cell.activityIndicator.stopAnimating()
 		}
 		// The photo has no image in the file system: download the image from Flickr
@@ -144,6 +147,7 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 					
 					dispatch_async(dispatch_get_main_queue()) {
 						cell.image.image = image
+						cell.userInteractionEnabled = true
 						cell.activityIndicator.stopAnimating()
 					}
 				}
@@ -192,6 +196,8 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 	// Fetch new photos from Flickr
 	func getNewPhotosFromFlickr() {
 		
+		bottomButton.enabled = false
+		
 		// Increment flickrPage so different photos will be fetched
 		pin.flickrPage += 1
 		
@@ -216,6 +222,7 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 				// Updating the collectionView with the new photos and noImageLabel
 				dispatch_async(dispatch_get_main_queue()) {
 					self.noImageLabel.hidden = !self.pin.photos.isEmpty
+					self.bottomButton.enabled = true
 					self.collectionView.reloadData()
 				}
 			}
@@ -225,9 +232,9 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 	// Changes bottomButton title
 	func updateBottomButton() {
 		if photosToBeRemoved.isEmpty {
-			newCollectionButton.setTitle("New Collection", forState: .Normal)
+			bottomButton.setTitle("New Collection", forState: .Normal)
 		} else {
-			newCollectionButton.setTitle("Remove Selected Pictures", forState: .Normal)
+			bottomButton.setTitle("Remove Selected Pictures", forState: .Normal)
 		}
 	}
 }
