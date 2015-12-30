@@ -215,9 +215,11 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 			if let photos = results as? [[String : AnyObject]] {
 				for photo in photos {
 					let imagePath = photo["url_m"] as! String
-					Photo(imagePath: imagePath, context: self.sharedContext).pin = pin
+					dispatch_async(dispatch_get_main_queue()) {
+						Photo(imageURLString: imagePath, context: self.sharedContext).pin = pin
+						CoreDataStackManager.sharedInstance().saveContext()
+					}
 				}
-				CoreDataStackManager.sharedInstance().saveContext()
 			}
 		}
 	}

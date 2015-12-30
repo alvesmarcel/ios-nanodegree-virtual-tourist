@@ -133,7 +133,7 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 		// The photo has no image in the file system: download the image from Flickr
 		else {
 			
-			let task = Flickr.sharedInstance().fetchImageFromFlickr(photo.imagePath!) { data, error in
+			let task = Flickr.sharedInstance().fetchImageFromFlickr(photo.imageURLString!) { data, error in
 				
 				if let error = error {
 					print("Image download error: \(error.localizedDescription)")
@@ -143,12 +143,14 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 
 					let image = UIImage(data: data)
 					
-					photo.image = image
-					
 					dispatch_async(dispatch_get_main_queue()) {
-						cell.image.image = image
-						cell.userInteractionEnabled = true
-						cell.activityIndicator.stopAnimating()
+						// Avoids the program from trying to save an image when the filePath is nil
+						if photo.imagePath != nil {
+							photo.image = image
+							cell.image.image = image
+							cell.userInteractionEnabled = true
+							cell.activityIndicator.stopAnimating()
+						}
 					}
 				}
 			}
@@ -215,9 +217,11 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 			if let photos = results as? [[String : AnyObject]] {
 				for photo in photos {
 					let imagePath = photo["url_m"] as! String
-					Photo(imagePath: imagePath, context: self.sharedContext).pin = self.pin
+					dispatch_async(dispatch_get_main_queue()) {
+						Photo(imageURLString: imagePath, context: self.sharedContext).pin = self.pin
+						CoreDataStackManager.sharedInstance().saveContext()
+					}
 				}
-				CoreDataStackManager.sharedInstance().saveContext()
 				
 				// Updating the collectionView with the new photos and noImageLabel
 				dispatch_async(dispatch_get_main_queue()) {

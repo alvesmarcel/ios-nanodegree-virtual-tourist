@@ -14,18 +14,24 @@ import CoreData
 
 class Photo : NSManagedObject {
 	
-	@NSManaged var imagePath: String!
+	@NSManaged var imageURLString: String!
 	@NSManaged var pin: Pin?
+	
+	// This variable is the last component of imageURLString
+	// It is used to store the image in the Documents directory
+	var imagePath: String! {
+		return (NSURL(string: imageURLString)?.lastPathComponent)
+	}
 	
 	override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
 		super.init(entity: entity, insertIntoManagedObjectContext: context)
 	}
 	
-	init(imagePath: String, context: NSManagedObjectContext) {
+	init(imageURLString: String, context: NSManagedObjectContext) {
 		let entity =  NSEntityDescription.entityForName("Photo", inManagedObjectContext: context)!
 		super.init(entity: entity,insertIntoManagedObjectContext: context)
 
-		self.imagePath = imagePath
+		self.imageURLString = imageURLString
 	}
 	
 	override func prepareForDeletion() {
