@@ -13,6 +13,7 @@ class PhotoAlbumViewCell: UICollectionViewCell {
 	
 	@IBOutlet weak var image: UIImageView!
 	@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+	@IBOutlet weak var usernameLabel: UILabel!
 	
 	var isLoading = true
 	

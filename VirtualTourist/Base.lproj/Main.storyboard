@@ -114,12 +114,21 @@
                                                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="t35-io-L4w">
                                                     <rect key="frame" x="38" y="37" width="37" height="37"/>
                                                 </activityIndicatorView>
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2CT-Qb-8aG">
+                                                    <rect key="frame" x="8" y="89" width="96" height="15"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="1" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
+                                            <constraint firstItem="2CT-Qb-8aG" firstAttribute="bottom" secondItem="NjS-dh-GNc" secondAttribute="bottomMargin" id="3JN-kN-Mr0"/>
+                                            <constraint firstItem="2CT-Qb-8aG" firstAttribute="trailing" secondItem="NjS-dh-GNc" secondAttribute="trailingMargin" id="3KF-6x-WGj"/>
                                             <constraint firstAttribute="bottomMargin" secondItem="FOg-Gc-vbk" secondAttribute="bottom" constant="-8" id="BhJ-qu-t6f"/>
                                             <constraint firstItem="t35-io-L4w" firstAttribute="centerX" secondItem="FOg-Gc-vbk" secondAttribute="centerX" id="CFQ-cl-RbP"/>
+                                            <constraint firstItem="2CT-Qb-8aG" firstAttribute="leading" secondItem="NjS-dh-GNc" secondAttribute="leadingMargin" id="ZgW-7h-jky"/>
                                             <constraint firstItem="FOg-Gc-vbk" firstAttribute="top" secondItem="NjS-dh-GNc" secondAttribute="topMargin" constant="-8" id="jMs-y5-3bP"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="FOg-Gc-vbk" secondAttribute="trailing" constant="-8" id="kaH-YM-iwe"/>
                                             <constraint firstItem="t35-io-L4w" firstAttribute="centerY" secondItem="FOg-Gc-vbk" secondAttribute="centerY" id="swK-sL-1hd"/>
@@ -128,6 +137,7 @@
                                         <connections>
                                             <outlet property="activityIndicator" destination="t35-io-L4w" id="gC0-HT-37X"/>
                                             <outlet property="image" destination="FOg-Gc-vbk" id="Pe3-Ef-0TJ"/>
+                                            <outlet property="usernameLabel" destination="2CT-Qb-8aG" id="LGS-DA-dnW"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

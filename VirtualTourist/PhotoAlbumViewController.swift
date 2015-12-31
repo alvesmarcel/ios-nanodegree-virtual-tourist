@@ -118,17 +118,14 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 	func configureCell(cell: PhotoAlbumViewCell, photo: Photo) {
 		
 		// No image: background gray and activityIndicator on
-		cell.backgroundColor = UIColor.grayColor()
-		cell.activityIndicator.startAnimating()
-		cell.userInteractionEnabled = false
+		setCellToLoadState(true, cell: cell, photo: photo)
 		
 		var cellImage = UIImage()
 		
 		// The photo has an image in the file system: no need to download from Flickr
 		if photo.image != nil {
 			cellImage = photo.image!
-			cell.userInteractionEnabled = true
-			cell.activityIndicator.stopAnimating()
+			setCellToLoadState(false, cell: cell, photo: photo)
 		}
 		// The photo has no image in the file system: download the image from Flickr
 		else {
@@ -148,8 +145,7 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 						if photo.imagePath != nil {
 							photo.image = image
 							cell.image.image = image
-							cell.userInteractionEnabled = true
-							cell.activityIndicator.stopAnimating()
+							self.setCellToLoadState(false, cell: cell, photo: photo)
 						}
 					}
 				}
@@ -159,6 +155,20 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 		}
 		
 		cell.image.image = cellImage
+	}
+	
+	func setCellToLoadState(flag: Bool, cell: PhotoAlbumViewCell, photo: Photo) {
+		if flag {
+			cell.userInteractionEnabled = false
+			cell.backgroundColor = UIColor.grayColor()
+			cell.activityIndicator.startAnimating()
+			cell.usernameLabel.hidden = true
+		} else {
+			cell.userInteractionEnabled = true
+			cell.activityIndicator.stopAnimating()
+			cell.usernameLabel.hidden = false
+			cell.usernameLabel.text = photo.flickrUser?.username
+		}
 	}
 	
 	// Selects or deselects cell for an indexPath

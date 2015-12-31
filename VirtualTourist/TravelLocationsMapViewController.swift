@@ -215,9 +215,10 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 			if let photos = results as? [[String : AnyObject]] {
 				for photo in photos {
 					let imageURLString = photo["url_m"] as! String
-					self.getUserInfo(photo[Flickr.JSONResponseKeys.Owner] as! String, forPhotoWithURL: imageURLString)
 					dispatch_async(dispatch_get_main_queue()) {
-						Photo(imageURLString: imageURLString, context: self.sharedContext).pin = pin
+						let p = Photo(imageURLString: imageURLString, context: self.sharedContext)
+						self.getUserInfo(photo[Flickr.JSONResponseKeys.Owner] as! String, forPhoto: p)
+						p.pin = pin
 						CoreDataStackManager.sharedInstance().saveContext()
 					}
 				}
@@ -226,14 +227,14 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 	}
 	
 	// Get username for a photo
-	func getUserInfo(userID: String, forPhotoWithURL url: String) {
+	func getUserInfo(userID: String, forPhoto photo: Photo) {
 		Flickr.sharedInstance().getFlickrUsernameForPhoto(userID) { result, error in
 			
 			if let usernameDict = result as? [String : String] {
 				dispatch_async(dispatch_get_main_queue()) {
 					let username = usernameDict[Flickr.JSONResponseKeys.Content]!
 					let flickrUser = FlickrUser(username: username, context: self.sharedContext)
-					Photo(imageURLString: url, context: self.sharedContext).flickrUser = flickrUser
+					photo.flickrUser = flickrUser
 					CoreDataStackManager.sharedInstance().saveContext()
 				}
 			}
