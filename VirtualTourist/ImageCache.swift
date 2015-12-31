@@ -67,7 +67,9 @@ class ImageCache {
 	func deleteImage(imagePath: String) {
 		do {
 			try NSFileManager.defaultManager().removeItemAtPath(imagePath)
-		} catch _ {}
+		} catch _ {
+			print("The image was not deleted properly")
+		}
 	}
     
     // MARK: - Helper
