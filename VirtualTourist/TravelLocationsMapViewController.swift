@@ -41,6 +41,7 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		// Small UI adjustments
 		navigationItem.backBarButtonItem = UIBarButtonItem(title:"OK", style:.Plain, target:nil, action:nil)
 		
 		// Used to add a pin when the user makes a "long press"
