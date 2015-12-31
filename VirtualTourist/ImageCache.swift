@@ -42,7 +42,7 @@ class ImageCache {
     
     func storeImage(image: UIImage?, withIdentifier identifier: String) {
         let path = pathForIdentifier(identifier)
-        
+
         // If the image is nil, remove images from the cache
         if image == nil {
             inMemoryCache.removeObjectForKey(path)
@@ -64,12 +64,15 @@ class ImageCache {
 	
 	// MARK: Deleting images
 	
-	func deleteImage(imagePath: String) {
+	func deleteImage(imageIdentifier: String) {
+		let path = pathForIdentifier(imageIdentifier)
+		
 		do {
-			try NSFileManager.defaultManager().removeItemAtPath(imagePath)
+			try NSFileManager.defaultManager().removeItemAtPath(path)
+			print("Image properly deleted")
 		} catch _ {
-			print("Image path: \(imagePath)")
-			print("The image was not deleted properly")
+			// This is expected to happen when the pin is deleted and images were not downloaded
+			print("There's no image for the informed path")
 		}
 	}
     
