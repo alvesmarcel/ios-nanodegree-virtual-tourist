@@ -76,10 +76,6 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 				let point = sender.locationInView(self.mapView)
 				let coordinate = self.mapView.convertPoint(point, toCoordinateFromView: self.mapView)
 				pinToBeDropped = Pin(coordinate: coordinate, context: sharedContext)
-				dispatch_async(dispatch_get_main_queue()) {
-					self.sharedContext.insertObject(self.pinToBeDropped!)
-					CoreDataStackManager.sharedInstance().saveContext()
-				}
 			}
 			
 			// Updates pinToBeDropped position if it's being dragged
