@@ -80,6 +80,11 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 			
 			// Updates pinToBeDropped position if it's being dragged
 			if (sender.state == UIGestureRecognizerState.Changed) {
+				
+				dispatch_async(dispatch_get_main_queue()) {
+					self.pinDraggedAndDropped = true
+				}
+				
 				let point = sender.locationInView(self.mapView)
 				let coordinate = self.mapView.convertPoint(point, toCoordinateFromView: self.mapView)
 				pinToBeDropped?.willChangeValueForKey("coordinate")
@@ -90,9 +95,11 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 			// When the dragging ends, the old pin is deleted and the new one is saved
 			if (sender.state == UIGestureRecognizerState.Ended) {
 				dispatch_async(dispatch_get_main_queue()) {
-					self.sharedContext.deleteObject(self.pinToBeDropped!)
-					self.pinDraggedAndDropped = true
-					self.sharedContext.insertObject(Pin(coordinate: (self.pinToBeDropped?.coordinate)!, context: self.sharedContext))
+					if self.pinDraggedAndDropped {
+						self.sharedContext.deleteObject(self.pinToBeDropped!)
+						self.sharedContext.insertObject(Pin(coordinate: (self.pinToBeDropped?.coordinate)!, context: self.sharedContext))
+					}
+					
 					CoreDataStackManager.sharedInstance().saveContext()
 				}
 			}

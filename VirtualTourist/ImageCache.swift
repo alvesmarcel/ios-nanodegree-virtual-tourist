@@ -68,7 +68,7 @@ class ImageCache {
 		do {
 			try NSFileManager.defaultManager().removeItemAtPath(imagePath)
 		} catch _ {
-			//print("Image path: \(imagePath)")
+			print("Image path: \(imagePath)")
 			print("The image was not deleted properly")
 		}
 	}
