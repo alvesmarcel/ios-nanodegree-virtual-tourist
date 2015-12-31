@@ -11,7 +11,7 @@ import Foundation
 
 class Flickr : NSObject {
 	
-	typealias CompletionHander = (result: AnyObject!, error: NSError?) -> Void
+	typealias CompletionHandler = (result: AnyObject!, error: NSError?) -> Void
 	
 	var session: NSURLSession
 	
@@ -22,13 +22,15 @@ class Flickr : NSObject {
 	
 	// MARK: - Flickr API functions
 	
-	// Searches for Flickr photos with parameters passed through a dictionary using Flickr API
-	private func searchFlickrPhotosWithParameters(parameters: [String : AnyObject], completionHandler: CompletionHander) -> NSURLSessionDataTask {
+	// General method for requesting a Flickr resource
+	private func taskForFlickrResource(parameters: [String : AnyObject], completionHandler: CompletionHandler) -> NSURLSessionDataTask {
 		
 		var mutableParameters = parameters
 		
 		// Add in the API Key
 		mutableParameters[JSONBodyKeys.ApiKey] = Constants.ApiKey
+		mutableParameters[JSONBodyKeys.DataFormat] = Flickr.SearchParameters.DataFormat
+		mutableParameters[JSONBodyKeys.NoJSONCallback] = Flickr.SearchParameters.NoJSONCallback
 		
 		let urlString = Constants.BaseURL + Flickr.escapedParameters(mutableParameters)
 		let url = NSURL(string: urlString)!
@@ -51,21 +53,18 @@ class Flickr : NSObject {
 	
 	// Creates the dictionary with latitude and longitude information to fetch Flickr photos based on location
 	// This method is the one called by the ViewControllers
-	func fetchPhotosFromFlickr(latitude: Double, longitude: Double, perPage: Int, page: Int, completionHandler: CompletionHander) {
+	func fetchPhotosFromFlickr(latitude: Double, longitude: Double, perPage: Int, page: Int, completionHandler: CompletionHandler) {
 		let methodArguments = [
-			Flickr.JSONBodyKeys.Method: Flickr.Methods.PhotosSearch,
-			Flickr.JSONBodyKeys.ApiKey: Flickr.Constants.ApiKey,
-			Flickr.JSONBodyKeys.SafeSearch: Flickr.SearchParameters.SafeSearch,
-			Flickr.JSONBodyKeys.Extras: Flickr.SearchParameters.Extras,
-			Flickr.JSONBodyKeys.DataFormat: Flickr.SearchParameters.DataFormat,
-			Flickr.JSONBodyKeys.NoJSONCallback: Flickr.SearchParameters.NoJSONCallback,
-			Flickr.JSONBodyKeys.Latitude: "\(latitude)",
-			Flickr.JSONBodyKeys.Longitude: "\(longitude)",
-			Flickr.JSONBodyKeys.PerPage: "\(perPage)",
-			Flickr.JSONBodyKeys.Page: "\(page)"
+			JSONBodyKeys.Method: Methods.PhotosSearch,
+			JSONBodyKeys.SafeSearch: SearchParameters.SafeSearch,
+			JSONBodyKeys.Extras: SearchParameters.Extras,
+			JSONBodyKeys.Latitude: "\(latitude)",
+			JSONBodyKeys.Longitude: "\(longitude)",
+			JSONBodyKeys.PerPage: "\(perPage)",
+			JSONBodyKeys.Page: "\(page)"
 		]
 		
-		Flickr.sharedInstance().searchFlickrPhotosWithParameters(methodArguments) { JSONResult, error in
+		Flickr.sharedInstance().taskForFlickrResource(methodArguments) { JSONResult, error in
 			if let error = error {
 				completionHandler(result: nil, error: error)
 			} else {
@@ -98,6 +97,27 @@ class Flickr : NSObject {
 		task.resume()
 		
 		return task
+	}
+	
+	// Gets user informations for a specific photo
+	func getFlickrUsernameForPhoto(userID: String, completionHandler: CompletionHandler) {
+		let methodArguments = [
+			Flickr.JSONBodyKeys.Method: Flickr.Methods.FlickrUserInfo,
+			Flickr.JSONBodyKeys.ApiKey: Flickr.Constants.ApiKey,
+			Flickr.JSONBodyKeys.UserID: userID
+		]
+		
+		Flickr.sharedInstance().taskForFlickrResource(methodArguments) { JSONResult, error in
+			if let error = error {
+				completionHandler(result: nil, error: error)
+			} else {
+				if let results = JSONResult.valueForKey(JSONResponseKeys.Person)?.valueForKey(JSONResponseKeys.Username) as? [String : String] {
+					completionHandler(result: results, error: nil)
+				} else {
+					completionHandler(result: nil, error: NSError(domain: "getFlickrUserInformationForPhoto", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not find JSONResponseKey"]))
+				}
+			}
+		}
 	}
 	
 	// MARK: - Shared Instance
@@ -159,7 +179,7 @@ class Flickr : NSObject {
 	}
 	
 	// JSON Parser
-	class func parseJSONWithCompletionHandler(data: NSData, completionHandler: CompletionHander) {
+	class func parseJSONWithCompletionHandler(data: NSData, completionHandler: CompletionHandler) {
 		var parsingError: NSError? = nil
 		
 		let parsedResult: AnyObject?

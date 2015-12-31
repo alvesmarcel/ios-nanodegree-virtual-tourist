@@ -17,6 +17,7 @@ extension Flickr {
 	
 	struct Methods {
 		static let PhotosSearch = "flickr.photos.search"
+		static let FlickrUserInfo = "flickr.people.getInfo"
 	}
 	
 	struct SearchParameters {
@@ -40,11 +41,16 @@ extension Flickr {
 		static let MaxTakenDate = "max_taken_date"
 		static let PerPage = "per_page"
 		static let Page = "page"
+		static let UserID = "user_id"
 	}
 	
 	struct JSONResponseKeys {
 		static let ErrorMessage = "message"
 		static let Photos = "photos"
 		static let Photo = "photo"
+		static let Person = "person"
+		static let Username = "username"
+		static let Owner = "owner"
+		static let Content = "_content"
 	}
 }

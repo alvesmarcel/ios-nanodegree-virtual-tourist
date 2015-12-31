@@ -16,6 +16,7 @@ class Photo : NSManagedObject {
 	
 	@NSManaged var imageURLString: String!
 	@NSManaged var pin: Pin?
+	@NSManaged var flickrUser: FlickrUser?
 	
 	// This variable is the last component of imageURLString
 	// It is used to store the image in the Documents directory
