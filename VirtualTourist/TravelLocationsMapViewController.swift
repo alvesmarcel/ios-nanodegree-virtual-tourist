@@ -28,6 +28,7 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 	
 	var editMode: Bool = false
 	var pinDraggedAndDropped: Bool = false
+	var pinToBeDropped: Pin?
 	
 	// MARK: - Shared Context
 	
@@ -68,13 +69,37 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 	
 	// Adds pin to the location tapped by the user
 	func addPinToMap(sender: UILongPressGestureRecognizer) {
-		
-		if (sender.state == UIGestureRecognizerState.Began && !editMode) {
-			let point = sender.locationInView(self.mapView)
-			let coordinate = self.mapView.convertPoint(point, toCoordinateFromView: self.mapView)
-			let pin = Pin(coordinate: coordinate, context: sharedContext)
-			sharedContext.insertObject(pin)
-			CoreDataStackManager.sharedInstance().saveContext()
+		if !editMode {
+			
+			// Creates the pinToBeDropped
+			if (sender.state == UIGestureRecognizerState.Began) {
+				let point = sender.locationInView(self.mapView)
+				let coordinate = self.mapView.convertPoint(point, toCoordinateFromView: self.mapView)
+				pinToBeDropped = Pin(coordinate: coordinate, context: sharedContext)
+				dispatch_async(dispatch_get_main_queue()) {
+					self.sharedContext.insertObject(self.pinToBeDropped!)
+					CoreDataStackManager.sharedInstance().saveContext()
+				}
+			}
+			
+			// Updates pinToBeDropped position if it's being dragged
+			if (sender.state == UIGestureRecognizerState.Changed) {
+				let point = sender.locationInView(self.mapView)
+				let coordinate = self.mapView.convertPoint(point, toCoordinateFromView: self.mapView)
+				pinToBeDropped?.willChangeValueForKey("coordinate")
+				pinToBeDropped?.coordinate = coordinate
+				pinToBeDropped?.didChangeValueForKey("coordinate")
+			}
+			
+			// When the dragging ends, the old pin is deleted and the new one is saved
+			if (sender.state == UIGestureRecognizerState.Ended) {
+				dispatch_async(dispatch_get_main_queue()) {
+					self.sharedContext.deleteObject(self.pinToBeDropped!)
+					self.pinDraggedAndDropped = true
+					self.sharedContext.insertObject(Pin(coordinate: (self.pinToBeDropped?.coordinate)!, context: self.sharedContext))
+					CoreDataStackManager.sharedInstance().saveContext()
+				}
+			}
 		}
 	}
 	
