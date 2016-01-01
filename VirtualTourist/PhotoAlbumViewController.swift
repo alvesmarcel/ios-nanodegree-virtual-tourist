@@ -130,7 +130,7 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 		// The photo has no image in the file system: download the image from Flickr
 		else {
 			
-			let task = Flickr.sharedInstance().fetchImageFromFlickr(photo.imageURLString!) { data, error in
+			let task = Flickr.sharedInstance.fetchImageFromFlickr(photo.imageURLString!) { data, error in
 				
 				if let error = error {
 					print("Image download error: \(error.localizedDescription)")
@@ -222,7 +222,7 @@ class PhotoAlbumViewController : UIViewController, UICollectionViewDataSource, U
 		}
 		
 		// Fetch new photos from Flickr
-		Flickr.sharedInstance().fetchPhotosFromFlickr(pin.latitude, longitude: pin.longitude, perPage: Flickr.Constants.PageSize, page: pin.flickrPage) { results, error in
+		Flickr.sharedInstance.fetchPhotosFromFlickr(pin.latitude, longitude: pin.longitude, perPage: Flickr.Constants.PageSize, page: pin.flickrPage) { results, error in
 			
 			if let photos = results as? [[String : AnyObject]] {
 				for photo in photos {

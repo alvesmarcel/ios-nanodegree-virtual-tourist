@@ -13,6 +13,9 @@ class Flickr : NSObject {
 	
 	typealias CompletionHandler = (result: AnyObject!, error: NSError?) -> Void
 	
+	// Shared Instance
+	static let sharedInstance = Flickr()
+	
 	var session: NSURLSession
 	
 	override init() {
@@ -64,7 +67,7 @@ class Flickr : NSObject {
 			JSONBodyKeys.Page: "\(page)"
 		]
 		
-		Flickr.sharedInstance().taskForFlickrResource(methodArguments) { JSONResult, error in
+		Flickr.sharedInstance.taskForFlickrResource(methodArguments) { JSONResult, error in
 			if let error = error {
 				completionHandler(result: nil, error: error)
 			} else {
@@ -107,7 +110,7 @@ class Flickr : NSObject {
 			Flickr.JSONBodyKeys.UserID: userID
 		]
 		
-		Flickr.sharedInstance().taskForFlickrResource(methodArguments) { JSONResult, error in
+		Flickr.sharedInstance.taskForFlickrResource(methodArguments) { JSONResult, error in
 			if let error = error {
 				completionHandler(result: nil, error: error)
 			} else {
@@ -118,17 +121,6 @@ class Flickr : NSObject {
 				}
 			}
 		}
-	}
-	
-	// MARK: - Shared Instance
-	
-	class func sharedInstance() -> Flickr {
-		
-		struct Singleton {
-			static var sharedInstance = Flickr()
-		}
-		
-		return Singleton.sharedInstance
 	}
 	
 	// MARK: - Helper

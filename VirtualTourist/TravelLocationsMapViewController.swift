@@ -239,7 +239,7 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 	// Pre-fetches photos from Flickr with pin information
 	// These photos are saved in the pin
 	func preFetchPhotosForPin(pin: Pin) {
-		Flickr.sharedInstance().fetchPhotosFromFlickr(pin.latitude, longitude: pin.longitude, perPage: 21, page: 1) { results, error in
+		Flickr.sharedInstance.fetchPhotosFromFlickr(pin.latitude, longitude: pin.longitude, perPage: 21, page: 1) { results, error in
 			
 			if let photos = results as? [[String : AnyObject]] {
 				for photo in photos {
@@ -257,7 +257,7 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 	
 	// Get username for a photo
 	func getUserInfo(userID: String, forPhoto photo: Photo) {
-		Flickr.sharedInstance().getFlickrUsernameForPhoto(userID) { result, error in
+		Flickr.sharedInstance.getFlickrUsernameForPhoto(userID) { result, error in
 			
 			if let usernameDict = result as? [String : String] {
 				dispatch_async(dispatch_get_main_queue()) {
