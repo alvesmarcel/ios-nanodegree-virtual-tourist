@@ -139,6 +139,9 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate, NS
 	
 	func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
 		
+		// Needed to make possible selecting the pin after it was selected
+		mapView.deselectAnnotation(view.annotation, animated: false)
+		
 		let pin = view.annotation as! Pin
 		
 		// editMode? Deletes the pin when selected
